@@ -5,7 +5,7 @@
             <h2 class="text-lg text-gray-900">Categories</h2>
             <mat-nav-list>
                 @for(cat of categories(); track cat){
-                  <mat-list-item [activated]="cat == category()" class="my-2" [routerLink]="['/products', cat]">
+                  <mat-list-item [activated]="cat == category()" class="my-2" [routerLink]="['/products', cat]" >
                    <span matListItemTitle>{{cat | titlecase }}  </span>
                   </mat-list-item>
                 }
@@ -14,12 +14,13 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
+
         <div class="bg-gray-100 p-6 h-full">
             <h1 class="text-2xl font-bold text-gray-900 mb-2 ">{{ category() | titlecase}} </h1>
-            <p class="text-base text-gray-600 mb-6">{{ filteredProducts().length }} products found</p>
+            <p class="text-base text-gray-600 mb-6">{{ store.filteredProducts().length }} products found</p>
             
             <div class="responsive-grid">
-                @for(product of filteredProducts(); track product.id){
+                @for(product of store.filteredProducts(); track product.id){
                     <app-product-card [product]="product" (addToCartEvent)="addToCart($event)"></app-product-card>
                 }
             </div>
