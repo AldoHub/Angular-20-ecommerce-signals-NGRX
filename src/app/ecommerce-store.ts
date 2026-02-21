@@ -74,7 +74,10 @@ export const EcommerceStore = signalStore(
                 return state.products().filter(product => product.category.toLowerCase() === state.category().toLowerCase());
             }  
           
-        })
+        }),
+        wishlistItemsCount: computed(() => {
+            return state.wishlistItems().length;
+        }),
     
     })),
     withMethods((store) => ({
@@ -84,6 +87,10 @@ export const EcommerceStore = signalStore(
         addToWishlist: signalMethod<Product>((product: Product) => {
            patchState(store, {wishlistItems: [...store.wishlistItems(), product]});
            alert('Product added to wishlist');
+        }),
+        removeFromWishlist: signalMethod<Product>((product: Product) => {
+           patchState(store, {wishlistItems: store.wishlistItems().filter(item => item.id !== product.id)});
+            alert('Product removed from wishlist');
         }),
     }))
   

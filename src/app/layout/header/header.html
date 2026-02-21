@@ -3,7 +3,7 @@
         <span>ng-ecommerce</span>
         <div class="flex items-center gap-2">
             <a matIconButton routerLink=""><mat-icon>shopping_cart</mat-icon></a>
-            <a matIconButton routerLink="/wishlist"><mat-icon>favorite</mat-icon></a>
+            <a matIconButton routerLink="/wishlist" [matBadge]="store.wishlistItemsCount()" [matBadgeHidden]="store.wishlistItemsCount() === 0"><mat-icon>favorite</mat-icon></a>
             <button matButton>Sign In</button>
             <button matButton="filled">Sign Up</button>
         </div>
