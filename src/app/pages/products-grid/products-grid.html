@@ -21,7 +21,9 @@
             
             <div class="responsive-grid">
                 @for(product of store.filteredProducts(); track product.id){
-                    <app-product-card [product]="product" (addToCartEvent)="addToCart($event)"></app-product-card>
+                    <app-product-card [product]="product" (addToCartEvent)="addToCart($event)">
+                      <app-wishlist-button [product]="product"></app-wishlist-button>
+                    </app-product-card>
                 }
             </div>
 

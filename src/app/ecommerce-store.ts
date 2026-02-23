@@ -92,6 +92,9 @@ export const EcommerceStore = signalStore(
            patchState(store, {wishlistItems: store.wishlistItems().filter(item => item.id !== product.id)});
             alert('Product removed from wishlist');
         }),
+        clearWishlist: (() => {
+            patchState(store, {wishlistItems: []});
+        }),
     }))
   
 )

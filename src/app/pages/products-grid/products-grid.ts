@@ -6,10 +6,11 @@ import { MatNavList, MatListItem, MatListItemTitle } from '@angular/material/lis
 import { RouterLink } from "@angular/router";
 import { TitleCasePipe } from '@angular/common';
 import { EcommerceState, EcommerceStore } from '../../ecommerce-store';
+import { WishlistButton } from '../../components/wishlist-button/wishlist-button';
 
 @Component({
   selector: 'app-products-grid',
-  imports: [ProductCard, MatSidenav, MatSidenavContainer, MatSidenavContent, MatNavList, MatListItem, MatListItemTitle, RouterLink, TitleCasePipe],
+  imports: [ProductCard, WishlistButton,MatSidenav, MatSidenavContainer, MatSidenavContent, MatNavList, MatListItem, MatListItemTitle, RouterLink, TitleCasePipe],
   templateUrl: './products-grid.html',
   styleUrl: './products-grid.scss',
 })

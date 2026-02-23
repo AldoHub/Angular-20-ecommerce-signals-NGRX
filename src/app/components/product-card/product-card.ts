@@ -20,16 +20,4 @@ export class ProductCard {
   public addToCartEvent = output<Product>();
  
 
-  isInWishlist = computed(() => {
-    return this.store.wishlistItems().some(item => item.id === this.product().id);
-  });
-
-  public toggleWishlist(product: Product) {
-    if(!this.isInWishlist()) {
-      this.store.addToWishlist(product);
-    } else {
-      this.store.removeFromWishlist(product);
-    }
-  
-  }
 }
