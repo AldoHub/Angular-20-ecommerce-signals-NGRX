@@ -34,7 +34,7 @@ export class ProductsGrid implements OnInit{
     console.log(product);
   }
 
-  
+
   
   ngOnInit(): void {
       console.log(this.store);

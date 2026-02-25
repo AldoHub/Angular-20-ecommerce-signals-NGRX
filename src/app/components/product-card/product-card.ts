@@ -7,7 +7,7 @@ import { EcommerceStore } from '../../ecommerce-store';
 
 @Component({
   selector: 'app-product-card',
-  imports: [MatAnchor, MatIcon, MatButton, MatIconButton],
+  imports: [MatAnchor, MatIcon, MatButton],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
 })
@@ -19,5 +19,9 @@ export class ProductCard {
   //example of output signal event
   public addToCartEvent = output<Product>();
  
+  public storeAaddToCart(product: Product) {
+    this.store.addToCart({product, quantity: 1});
+  }
+  
 
 }

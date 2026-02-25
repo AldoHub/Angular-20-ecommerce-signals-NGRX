@@ -17,7 +17,7 @@
                 <span class="text-2xl font-bold text-gray-900">
                     ${{ product().price }}
                 </span>
-                <button matButton="filled" class="flex items-center gap-2" (click)="addToCartEvent.emit(product())">
+                <button matButton="filled" class="flex items-center gap-2" (dblclick)="addToCartEvent.emit(product())" (click)="storeAaddToCart(product())">
                     <mat-icon>shopping_cart</mat-icon>
                     <span>Add to Cart</span>
                 </button>

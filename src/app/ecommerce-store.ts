@@ -1,11 +1,13 @@
 import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { Product } from './models/product';
 import { computed } from '@angular/core';
+import { CartItem } from './models/cartItem';
 
 export type EcommerceState = {
     products: Product[];
     category: string;
     wishlistItems: Product[];
+    cartItems: CartItem[];
 }
 
 const initialState: EcommerceState = {
@@ -57,6 +59,7 @@ const initialState: EcommerceState = {
         ],
     category: 'all',
     wishlistItems: [],
+    cartItems: [],
 }
 
 export const EcommerceStore = signalStore(
@@ -78,6 +81,9 @@ export const EcommerceStore = signalStore(
         wishlistItemsCount: computed(() => {
             return state.wishlistItems().length;
         }),
+        cartItemsCount: computed(() => {
+            return state.cartItems().length;
+        }),
     
     })),
     withMethods((store) => ({
@@ -94,6 +100,21 @@ export const EcommerceStore = signalStore(
         }),
         clearWishlist: (() => {
             patchState(store, {wishlistItems: []});
+        }),
+        addToCart: signalMethod<CartItem>((cartItem: CartItem) => {
+            const product = store.cartItems().find(product => product.product.id === cartItem.product.id);
+            if (!product) {
+                //add product to cart
+                patchState(store, {cartItems: [...store.cartItems(), cartItem]});
+                console.log(store.cartItems());
+            }else{
+                //update product in cart
+                const index = store.cartItems().findIndex(product => product.product.id === cartItem.product.id);
+                store.cartItems()[index].quantity = product.quantity + cartItem.quantity;
+                console.log(store.cartItems()[index]);
+            }
+
+            alert('Product added to cart');
         }),
     }))
   
