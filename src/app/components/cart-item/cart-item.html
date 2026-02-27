@@ -8,9 +8,18 @@
         </div>  
     </div>
     <div class="flex flex-col items-center align-center">
-        <app-qty-selector [quantity]="cartItem().quantity" (qtyUpdated)="cartItem().quantity = $event"></app-qty-selector>
+        <app-qty-selector [quantity]="cartItem().quantity" (qtyUpdated)="setItemQuantity($event)"></app-qty-selector>
     </div>
     <div class="flex flex-col items-end">
         ${{total()}}
+        <div class="flex">
+            <button matIconButton>
+                <mat-icon>favorite_border</mat-icon>
+            </button>
+            <button matIconButton>
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
     </div>
+   
 </div>

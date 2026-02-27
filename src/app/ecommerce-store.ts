@@ -116,6 +116,10 @@ export const EcommerceStore = signalStore(
 
             alert('Product added to cart');
         }),
+        setItemQuantity: ((cartItem: CartItem, quantity: number) => {
+            //change the quantity of the product in the cart in order to trigger the computed total in the cart-item component
+            patchState(store, {cartItems: store.cartItems().map(item => item.product.id === cartItem.product.id ? {...item, quantity} : item)});
+        })
     }))
   
 )
