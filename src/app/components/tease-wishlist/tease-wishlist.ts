@@ -15,4 +15,8 @@ export class TeaseWishlist {
 
   store = inject(EcommerceStore);
 
+  public addAllWishlistItems() {
+    this.store.addAllWIshlistItemsToCart();
+  }
+
 }

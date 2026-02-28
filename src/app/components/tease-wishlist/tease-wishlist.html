@@ -9,7 +9,7 @@
 
     <div class="flex items-center gap-3">
         <button matButton="" routerLink="/wishlist">View All</button>
-        <button matButton="filled">
+        <button matButton="filled" (click)="addAllWishlistItems()">
             <mat-icon>add</mat-icon>
             Add All to Cart
         </button>

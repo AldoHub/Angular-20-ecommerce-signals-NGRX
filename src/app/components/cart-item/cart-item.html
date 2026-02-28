@@ -13,10 +13,10 @@
     <div class="flex flex-col items-end">
         ${{total()}}
         <div class="flex">
-            <button matIconButton>
+            <button matIconButton (click)="store.returnToWishlist(cartItem().product)">
                 <mat-icon>favorite_border</mat-icon>
             </button>
-            <button matIconButton>
+            <button matIconButton (click)="store.removeFromCart(cartItem())">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>

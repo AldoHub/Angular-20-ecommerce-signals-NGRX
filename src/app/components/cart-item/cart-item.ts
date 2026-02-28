@@ -24,4 +24,6 @@ export class CartItemItem {
   public setItemQuantity(quantity: number) {
     this.store.setItemQuantity(this.cartItem(), quantity);
   }
+
+  
 }

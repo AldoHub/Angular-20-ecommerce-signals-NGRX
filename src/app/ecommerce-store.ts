@@ -119,7 +119,40 @@ export const EcommerceStore = signalStore(
         setItemQuantity: ((cartItem: CartItem, quantity: number) => {
             //change the quantity of the product in the cart in order to trigger the computed total in the cart-item component
             patchState(store, {cartItems: store.cartItems().map(item => item.product.id === cartItem.product.id ? {...item, quantity} : item)});
-        })
+        }),
+        addAllWIshlistItemsToCart: (() => {
+           
+            let _items = store.wishlistItems();
+            let newcartitems: CartItem[] = []
+            
+            newcartitems = store.cartItems().map(_cartitem => {
+                const whislitsItem = _items.find(_item => _cartitem.product.id === _item.id);
+                //remove the product from the wishlist as we go
+                _items = _items.filter(_item => _item.id !== _cartitem.product.id);
+                
+                if(whislitsItem !== undefined){
+                   return {..._cartitem, quantity: _cartitem.quantity + 1};
+                }else{
+                    return {..._cartitem, quantity: _cartitem.quantity};
+                }
+             
+            });
+
+            //just add the products that are still in the wishlist
+            _items.map(item => {
+                newcartitems.push({product: item, quantity: 1});
+             });
+           
+            patchState(store, {cartItems: newcartitems, wishlistItems: []});
+          
+        }),
+
+        removeFromCart: signalMethod<CartItem>((cartItem: CartItem) => {
+            patchState(store, {cartItems: store.cartItems().filter(item => item.product.id !== cartItem.product.id)});
+        }),
+        returnToWishlist: signalMethod<Product>((product: Product) => {
+          patchState(store, {cartItems: store.cartItems().filter(item => item.product.id !== product.id), wishlistItems: [...store.wishlistItems(), product]});
+        }),
     }))
   
 )
