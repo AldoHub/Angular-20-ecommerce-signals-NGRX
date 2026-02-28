@@ -2,6 +2,9 @@ import { patchState, signalMethod, signalStore, withComputed, withMethods, withS
 import { Product } from './models/product';
 import { computed } from '@angular/core';
 import { CartItem } from './models/cartItem';
+import { MatDialog } from '@angular/material/dialog';
+import { inject } from '@angular/core';
+import { SignInDialog } from './components/sign-in-dialog/sign-in-dialog';
 
 export type EcommerceState = {
     products: Product[];
@@ -86,7 +89,7 @@ export const EcommerceStore = signalStore(
         }),
     
     })),
-    withMethods((store) => ({
+    withMethods((store, dialog = inject(MatDialog)) => ({
        setCategory: signalMethod<string>((category: string) => {
             patchState(store, {category});
         }),
@@ -152,6 +155,11 @@ export const EcommerceStore = signalStore(
         }),
         returnToWishlist: signalMethod<Product>((product: Product) => {
           patchState(store, {cartItems: store.cartItems().filter(item => item.product.id !== product.id), wishlistItems: [...store.wishlistItems(), product]});
+        }),
+        proceedToCheckout:(() => {
+            dialog.open(SignInDialog, {
+                disableClose: true,
+            })
         }),
     }))
   
