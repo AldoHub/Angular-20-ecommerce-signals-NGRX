@@ -1,0 +1,57 @@
+<div class="mx-auto max-w-[1200px] py-6">
+    <app-back-button class="mb-4" navigateTo="/cart" label="Continue Shopping"></app-back-button>
+    <h1 class="text-3xl font-extrabold mb-4">Checkout</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div class="lg:col-span-3 flex flex-col gap-6">
+            <div>
+                 <form [formGroup]="shippingForm" (ngSubmit)="onSubmitShipping()" class="flex flex-col">
+                    <mat-form-field class="w-full mb-2 mt-4">
+                        <input matInput formControlName="name" type="text" placeholder="Enter your Name" />
+                        <mat-icon matPrefix>person</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field class="w-full mb-2 mt-2">
+                        <input matInput formControlName="email" type="email" placeholder="Enter your Email">
+                        <mat-icon matPrefix>email</mat-icon>
+                    </mat-form-field>
+                     <mat-form-field class="w-full mb-2 mt-2">
+                        <input matInput formControlName="address" type="text" placeholder="Enter your address">
+                        <mat-icon matPrefix>email</mat-icon>
+                    </mat-form-field>
+                     <mat-form-field class="w-full mb-2 mt-2">
+                        <input matInput formControlName="city" type="text" placeholder="City">
+                        <mat-icon matPrefix>email</mat-icon>
+                    </mat-form-field>
+                     <mat-form-field class="w-full mb-2 mt-2">
+                        <input matInput formControlName="country" type="text" placeholder="Country">
+                        <mat-icon matPrefix>email</mat-icon>
+                    </mat-form-field>
+                     <mat-form-field class="w-full mb-2 mt-2">
+                        <input matInput formControlName="zip" type="text" placeholder="zipcode">
+                        <mat-icon matPrefix>email</mat-icon>
+                    </mat-form-field>
+                    
+                    <button type="submit" matButton="filled" class="w-full" [disabled]="store.loading()">
+                        {{store.loading() ? 'Loading...' : 'Sign Up'}}
+                    </button>
+                </form>
+
+            </div>
+           
+        </div>
+         <app-cart-summary class="lg:col-span-2 flex flex-col gap-6">
+            <ng-container checkoutItems>
+                @for(item of store.cartItems(); track item.product.id) {
+                    <div class="flex justify-between text-sm">
+                        <span>{{item.product.name}} x {{item.quantity}}</span>
+                        <span>${{item.product.price * item.quantity}}</span>
+                    </div>
+                }
+            </ng-container>
+            <ng-container actionButtons>
+                <button matButton="filled" class="w-full mt-6 py-3" [disabled]="store.loading()" (click)="store.placeOrder()">{{store.loading() ? 'Loading...' : 'Place Order'}}</button>
+            </ng-container>
+         </app-cart-summary>
+    </div>
+   
+</div>

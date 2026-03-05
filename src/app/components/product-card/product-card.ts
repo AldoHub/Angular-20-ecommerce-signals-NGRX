@@ -4,10 +4,11 @@ import { MatAnchor, MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton } from "@angular/material/button";
 import { EcommerceStore } from '../../ecommerce-store';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-product-card',
-  imports: [MatAnchor, MatIcon, MatButton],
+  imports: [MatAnchor, MatIcon, MatButton, RouterLink],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
 })

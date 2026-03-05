@@ -5,12 +5,18 @@ import { CartItem } from './models/cartItem';
 import { MatDialog } from '@angular/material/dialog';
 import { inject } from '@angular/core';
 import { SignInDialog } from './components/sign-in-dialog/sign-in-dialog';
+import { SignInParams, SignUpParams, User } from './models/user';
+import { Router } from '@angular/router';
+import { Order } from './models/order';
 
 export type EcommerceState = {
     products: Product[];
     category: string;
     wishlistItems: Product[];
     cartItems: CartItem[];
+    user: User | null;
+    loading: boolean;
+    selectedProductId: string | null;
 }
 
 const initialState: EcommerceState = {
@@ -63,6 +69,9 @@ const initialState: EcommerceState = {
     category: 'all',
     wishlistItems: [],
     cartItems: [],
+    user: null,
+    loading: false,
+    selectedProductId: null,
 }
 
 export const EcommerceStore = signalStore(
@@ -87,9 +96,15 @@ export const EcommerceStore = signalStore(
         cartItemsCount: computed(() => {
             return state.cartItems().length;
         }),
+        
+        selectedProduct: computed(() => {
+            console.log(state.products().find(product => product.id === state.selectedProductId()))
+            return state.products().find(product => product.id === state.selectedProductId());
+        }),
+        
     
     })),
-    withMethods((store, dialog = inject(MatDialog)) => ({
+    withMethods((store, dialog = inject(MatDialog), router = inject(Router)) => ({
        setCategory: signalMethod<string>((category: string) => {
             patchState(store, {category});
         }),
@@ -157,10 +172,67 @@ export const EcommerceStore = signalStore(
           patchState(store, {cartItems: store.cartItems().filter(item => item.product.id !== product.id), wishlistItems: [...store.wishlistItems(), product]});
         }),
         proceedToCheckout:(() => {
+            if(store.user() === null){
             dialog.open(SignInDialog, {
                 disableClose: true,
+                data: {
+                    checkout: true
+                }
             })
+            }else{
+                 router.navigate(['/checkout']);
+            }
         }),
+        signIn: signalMethod<SignInParams>((params: SignInParams) => {
+            patchState(store, {user: {id: params.email, email: params.email, name:'', imageUrl: 'https://picsum.photos/200/300'}});
+            dialog.closeAll();
+            if(params.checkout){
+                router.navigate(['/checkout']);
+            }
+        }),
+        signUp: signalMethod<SignUpParams>((params: SignUpParams) => {
+            console.log(params);
+            dialog.closeAll();
+            patchState(store, {user: {id: params.email, email: params.email, name: params.name, imageUrl: 'https://picsum.photos/200/300'}});
+            
+        }),
+        logOut:(() => {
+            patchState(store, {user: null}); 
+        }),
+        placeOrder:(() => {
+            alert('Order placed');  
+            patchState(store, {loading: true});
+
+            if(store.user() === null){
+                alert('Please sign in to place the order');
+                return;
+            }else{
+                
+                const order: Order = {
+                    id: '1',
+                    user: store.user()?.id || null,
+                    items: store.cartItems(),
+                    total: store.cartItems().reduce((acc, item) => {
+                        return acc + item.quantity * item.product.price;
+                    }, 0),
+                    paymentStatus: 'success'
+                }
+                alert('Order placed');
+            }     
+
+            setTimeout(() => {
+                patchState(store, {loading: false, cartItems: []});
+                router.navigate(['/order-success']);
+            }, 2000);
+
+            
+        }),
+        
+        setProduct: signalMethod<string>((productId: string) => {
+            console.log(productId);
+            patchState(store, {selectedProductId: productId});  
+        })
+            
     }))
   
 )

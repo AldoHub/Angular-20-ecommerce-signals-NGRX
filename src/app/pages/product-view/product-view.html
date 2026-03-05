@@ -1,0 +1,37 @@
+<div class="mx-auto max-w-[1200px] py-6">
+    <app-back-button class="mb-6" [navigateTo]="backRoute()" label="Continue Shopping"></app-back-button>
+
+    @if(store.selectedProduct(); as product) {
+        <div class="flex gap-8 mb-8 mt-6">
+            <img [src]="product.imageUrl" alt="" class="w-[500px] h-[500px] object-cover rounde-lg">
+            <div class="flex-1">
+                <div>{{product.rating}} stars/ 5 stars</div>
+                <h1 class="text-3xl font-extrabold mb-4">{{product.name}}</h1>
+                <p class="text-sm text-gray-500">{{product.description}}</p>
+                <span class="text-2xl font-bold text-gray-900">${{product.price}}</span>
+            
+                    <div class="flex items-center gap-2 mb-3 pt-4">
+                    
+                        <span class="font-semibold">Quantity:</span>
+                        <app-qty-selector [quantity]="quantity()" (qtyUpdated)="quantity.set($event)"></app-qty-selector>
+                        <button matButton="filled" class="flex items-center gap-2" (click)="storeAaddToCart(product)">
+                            <mat-icon>shopping_cart</mat-icon>
+                            <span>Add to Cart</span>
+                        </button>
+                        <div>
+                            @if(product.inStock) {
+                                <button matButton="outlined" class="py-3" (click)="store.addToWishlist(product)">Add to Wishlist</button>
+                            }@else{
+                                <button matButton="outlined" class="py-3">Out of Stock</button>
+                            }
+                        </div>
+                </div>
+            </div>
+        </div>
+       
+        
+    }
+    
+      
+    
+</div>
